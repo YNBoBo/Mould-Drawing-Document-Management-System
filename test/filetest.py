@@ -4,36 +4,13 @@ import tkinterdnd2
 import logging
 import os
 
-def show_text(input_text):
-    logger.info("输入文本: " + input_text)
-    text_widget.insert(tk.END, input_text + '\n')  # 在文本框中插入输入的文本并换行
-
-def setup_logging():
-    # 获取桌面路径
-    desktop_path = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
-    log_file_path = os.path.join(desktop_path, 'test_log.txt')
-    # 创建一个日志记录器
-    logger = logging.getLogger('FileDropLogger')
-    logger.setLevel(logging.DEBUG)
-    # 创建一个文件处理器
-    file_handler = logging.FileHandler(log_file_path)
-    file_handler.setLevel(logging.DEBUG)
-    # 创建一个格式化器
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    file_handler.setFormatter(formatter)
-    # 将处理器添加到记录器
-    logger.addHandler(file_handler)
-    return logger
-
 
 def drop(event):
     try:
         file_path = event.data
-        logger.info("拖放的文件名称: " + file_path)
-        show_text(file_path)
+        print("拖放的文件名称: " + file_path)
     except Exception as e:
-        logger.error("文件拖放时出现错误: " + str(e))
-        print("文件拖放时出现错误:", e)
+        print("文件拖放时出现错误: " + str(e))
 
 
 def create_drop_area():
@@ -50,12 +27,11 @@ def browse_file():
     try:
         file_path = filedialog.askopenfilename()
         if file_path:
-            logger.info("选择的文件名称: " + file_path)
-            show_text(file_path)
+            print("选择的文件名称: " + file_path)
         else:
-            logger.info("未选择文件")
+            print("未选择文件")
     except Exception as e:
-        logger.error("文件选择时出现错误: " + str(e))
+        print("文件选择时出现错误: " + str(e))
         print("文件选择时出现错误:", e)
 
 
@@ -64,11 +40,7 @@ root = tkinterdnd2.Tk()
 root.title("文件拖放程序")
 
 
-logger = setup_logging()
-
-
 create_drop_area()
-
 
 browse_button = tk.Button(root, text="选择文件", command=browse_file)
 browse_button.pack(pady=10)
